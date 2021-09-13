@@ -1,0 +1,29 @@
+{
+  "name": "salute",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/katerinassh/salute-service.git"
+  },
+  "author": "@katerinassh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/katerinassh/salute-service/issues"
+  },
+  "homepage": "https://github.com/katerinassh/salute-service#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "knex": "^0.21.21",
+    "objection": "^2.2.15"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0"
+  }
+}
