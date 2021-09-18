@@ -1,15 +1,13 @@
 require('dotenv').config();
 
-const { DATABASE_NAME, DATABASE_USER, DATABASE_PASSWORD, DATABASE_HOST, DATABASE_PORT } = process.env;
-
 module.exports = {
   client: 'pg',
   connection: {
-    database: DATABASE_NAME,
-    user: DATABASE_USER,
-    password: DATABASE_PASSWORD,
-    host: DATABASE_HOST,
-    port: DATABASE_PORT,
+    user: 'katerina',
+    database: 'salute-db',
+    password: '12345',
+    host: 'localhost',
+    port: 5432,
   },
   migrations: {
     directory: './migrations'
