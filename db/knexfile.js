@@ -7,11 +7,11 @@ const {
 module.exports = {
   client: 'pg',
   connection: {
-    database: DATABASE_NAME,
-    user: DATABASE_USER,
-    password: DATABASE_PASSWORD,
-    host: DATABASE_HOST,
-    port: DATABASE_PORT,
+    user: 'katerina',
+    database: 'salute-db',
+    password: '12345',
+    host: 'localhost',
+    port: 5432,
   },
   migrations: {
     directory: './migrations',
