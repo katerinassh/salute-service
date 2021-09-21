@@ -1,6 +1,8 @@
 require('dotenv').config();
 
-const { DATABASE_NAME, DATABASE_USER, DATABASE_PASSWORD, DATABASE_HOST, DATABASE_PORT } = process.env;
+const {
+  DATABASE_NAME, DATABASE_USER, DATABASE_PASSWORD, DATABASE_HOST, DATABASE_PORT,
+} = process.env;
 
 module.exports = {
   client: 'pg',
@@ -12,10 +14,10 @@ module.exports = {
     port: DATABASE_PORT,
   },
   migrations: {
-    directory: './migrations'
+    directory: './migrations',
   },
   seeds: {
-    directory: './seeds/dev'
+    directory: './seeds/dev',
   },
-  useNullAsDefault: true
-}
+  useNullAsDefault: true,
+};
