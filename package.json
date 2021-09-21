@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node ./src/index.js",
+    "start": "node ./index.js",
     "migrate": "knex migrate:latest --knexfile db/knexfile.js",
     "migrate:up": "knex migrate:up --knexfile db/knexfile.js",
     "migrate:down": "knex migrate:down --knexfile db/knexfile.js",
@@ -28,6 +28,7 @@
     "body-parser": "^1.19.0",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
     "knex": "^0.21.21",
     "objection": "^2.2.15",
     "pg": "^8.7.1"
