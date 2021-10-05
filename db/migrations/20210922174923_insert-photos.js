@@ -5,5 +5,5 @@ exports.up = function (knex) {
 
 exports.down = function (knex) {
   return knex('photos')
-    .where({ photo_id: 1 } || { photo_id: 2 } || { photo_id: 3 }).del();
+    .where({ photo_number: 1 } || { photo_number: 2 } || { photo_number: 3 }).del();
 };

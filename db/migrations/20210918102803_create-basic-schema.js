@@ -77,10 +77,6 @@ exports.up = async (knex) => {
     .raw('ALTER TABLE messages ADD COLUMN message_number SERIAL UNIQUE');
 };
 
-exports.down = async (knex) => {
-  await knex.raw('drop extension if exists "uuid-ossp"');
-
-  return knex.schema.dropTable('messages').dropTable('chats').dropTable('user_interest').dropTable('interests')
-    .dropTable('users')
-    .dropTable('photos');
-};
+exports.down = async (knex) => knex.schema.dropTable('messages').dropTable('chats').dropTable('user_interest').dropTable('interests')
+  .dropTable('users')
+  .dropTable('photos');

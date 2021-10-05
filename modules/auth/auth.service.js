@@ -1,16 +1,18 @@
 /* eslint-disable camelcase */
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 const {
-  getUserByLoginPassword, createUnactiveUser, isUserExists, increaseInvitesAmount,
+  createUnactiveUser, isUserExists, increaseInvitesAmount, getUserByLogin,
 } = require('../user/user.service');
 require('dotenv').config();
 
 async function logIn(body) {
   const { login, password } = body;
 
-  const user = await getUserByLoginPassword(login, password);
+  const user = await getUserByLogin(login);
+  const match = await bcrypt.compare(password, user.password);
 
-  if (user) {
+  if (user && match) {
     const {
       user_id, email, birthday, photo_id, created_at, updated_at,
     } = user;

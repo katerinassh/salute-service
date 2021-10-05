@@ -7,19 +7,12 @@ async function isUserExists(email) {
   return Boolean(users.length);
 }
 
-async function getUserByLoginPassword(login, password) {
-  const users = await User.query().where('users.login', login).where('users.password', password);
-  return users[0];
-}
-
-async function getUserByLogin(user) {
-  const users = await User.query().where('users.login', user.login);
-  return users[0];
+async function getUserByLogin(login) {
+  return User.query().where('users.login', login).first();
 }
 
 async function createUnactiveUser(email) {
-  const user = await User.query().insert({ email, is_active: false });
-  return user;
+  return User.query().insert({ email, is_active: false });
 }
 
 async function increaseInvitesAmount(user_id) {
@@ -33,5 +26,5 @@ async function increaseInvitesAmount(user_id) {
 }
 
 module.exports = {
-  getUserByLoginPassword, getUserByLogin, createUnactiveUser, isUserExists, increaseInvitesAmount,
+  getUserByLogin, createUnactiveUser, isUserExists, increaseInvitesAmount,
 };
