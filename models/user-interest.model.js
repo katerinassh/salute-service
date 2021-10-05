@@ -32,7 +32,7 @@ class UserInterest extends Model {
         relation: Model.BelongsToOneRelation,
         modelClass: User,
         join: {
-          from: 'users.user_id',
+          from: 'users.user_number',
           to: 'user_interest.user_id',
         },
       },
@@ -40,7 +40,7 @@ class UserInterest extends Model {
         relation: Model.BelongsToOneRelation,
         modelClass: Interest,
         join: {
-          from: 'interests.interest_id',
+          from: 'interests.interest_number',
           to: 'user_interest.interest_id',
         },
       },

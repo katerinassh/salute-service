@@ -28,7 +28,7 @@ class User extends Model {
       required: ['email'],
 
       properties: {
-        user_id: { type: 'integer' },
+        user_id: { type: 'uuid' },
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
         email: { type: 'string', minLength: 8, maxLength: 255 },
@@ -36,6 +36,7 @@ class User extends Model {
         login: { type: 'string', minLength: 6, maxLength: 25 },
         birthday: { type: 'string', format: 'date' },
         photo_id: { type: 'integer' },
+        user_number: { type: 'integer' },
       },
     };
   }
@@ -46,19 +47,19 @@ class User extends Model {
         relation: Model.BelongsToOneRelation,
         modelClass: Photo,
         join: {
-          from: 'photos.photo_id',
+          from: 'photos.photo_number',
           to: 'users.photo_id',
         },
       },
       interest: {
         relation: Model.ManyToManyRelation,
         modelClass: Interest,
-        from: 'users.user_id',
+        from: 'users.user_number',
         through: {
           from: 'user_interest.user_id',
           to: 'user_interest.interest_id',
         },
-        to: 'interests.interest_id',
+        to: 'interests.interest_number',
       },
     };
   }

@@ -14,7 +14,7 @@ async function logIn(body) {
 
   if (user && match) {
     const {
-      user_id, email, birthday, photo_id, created_at, updated_at,
+      user_id, email, birthday, photo_id, created_at, updated_at, user_number,
     } = user;
     const payload = {
       user_id,
@@ -24,6 +24,7 @@ async function logIn(body) {
       photo_id,
       created_at,
       updated_at,
+      user_number,
     };
     return jwt.sign(payload, process.env.JWTSECRETKEY);
   }
@@ -39,10 +40,10 @@ async function invite(body, user) {
 
   if (!(await isUserExists(email))) {
     const newUser = await createUnactiveUser(email);
+    console.log(user);
     await increaseInvitesAmount(user.user_id);
 
-    const token = jwt.sign(newUser.toJSON(), process.env.JWTSECRETKEY);
-    return `http://${process.env.HOST}:${process.env.APP_PORT}/auth/register/id=${token}`;
+    return `http://${process.env.HOST}:${process.env.APP_PORT}/auth/register/id=${newUser.user_id}`;
   }
   throw new Error('User with such email already exists');
 }

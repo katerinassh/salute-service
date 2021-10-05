@@ -26,11 +26,12 @@ class Photo extends Model {
       required: ['body', 'is_main'],
 
       properties: {
-        photo_id: { type: 'integer' },
+        photo_id: { type: 'uuid' },
         created_at: this.created_at,
         updated_at: this.updated_at,
         body: { type: 'string', maxLength: 255 },
         is_main: { type: 'boolean' },
+        photo_number: { type: 'integer' },
       },
     };
   }

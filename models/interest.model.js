@@ -26,10 +26,11 @@ class Interest extends Model {
       required: ['name'],
 
       properties: {
-        interest_id: { type: 'integer' },
+        interest_id: { type: 'uuid' },
         created_at: this.created_at,
         updated_at: this.updated_at,
         name: { type: 'string', minLength: 3, maxLength: 64 },
+        interest_number: { type: 'integer' },
       },
     };
   }
