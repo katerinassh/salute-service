@@ -1,0 +1,41 @@
+{
+  "name": "salute",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./index.js",
+    "migrate": "knex migrate:latest --knexfile db/knexfile.js",
+    "migrate:up": "knex migrate:up --knexfile db/knexfile.js",
+    "migrate:down": "knex migrate:down --knexfile db/knexfile.js",
+    "migrate:make": "knex migrate:make --knexfile db/knexfile.js",
+    "migrate:rollback": "knex migrate:rollback --knexfile db/knexfile.js",
+    "lint": "eslint src --ext .js",
+    "lint:fix": "npm run lint -- --fix",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/katerinassh/salute-service.git"
+  },
+  "author": "@katerinassh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/katerinassh/salute-service/issues"
+  },
+  "homepage": "https://github.com/katerinassh/salute-service#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "knex": "^0.21.21",
+    "objection": "^2.2.15",
+    "pg": "^8.7.1"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.24.2"
+  }
+}
