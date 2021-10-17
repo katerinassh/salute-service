@@ -2,7 +2,7 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const {
-  createUnactiveUser, isUserExists, increaseInvitesAmount, getUserByLogin,
+  createUnactiveUser, isUserExists, increaseInvitesAmount, getUserByLogin, getUserByEmail, updatePassword,
 } = require('../user/user.service');
 require('dotenv').config();
 
@@ -56,4 +56,13 @@ async function forgotPassword(email) {
   throw new Error('User with such email doesn`t exist');
 }
 
-module.exports = { logIn, invite, forgotPassword };
+async function resetPassword(token, body) {
+  const email = jwt.verify(token, process.env.JWTSECRETKEY);
+  const user = await getUserByEmail(email);
+
+  await updatePassword(user.user_id, body);
+}
+
+module.exports = {
+  logIn, invite, forgotPassword, resetPassword,
+};
