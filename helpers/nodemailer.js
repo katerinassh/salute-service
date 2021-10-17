@@ -1,14 +1,14 @@
 const nodemailer = require('nodemailer');
 
-async function mailer(email, link) {
-  const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: 'shakiryanova.testing@gmail.com',
-      pass: 'Fullstack12',
-    },
-  });
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'shakiryanova.testing@gmail.com',
+    pass: 'Fullstack12',
+  },
+});
 
+async function mailInvite(email, link) {
   const mailData = {
     from: 'SALUTE',
     to: email,
@@ -23,4 +23,19 @@ async function mailer(email, link) {
   });
 }
 
-module.exports = { mailer };
+async function mailResetPassword(email, link) {
+  const mailData = {
+    from: 'SALUTE',
+    to: email,
+    subject: 'Reset Password',
+    text: link,
+  };
+
+  transporter.sendMail(mailData, (err) => {
+    if (err) {
+      throw new Error(err);
+    }
+  });
+}
+
+module.exports = { mailInvite, mailResetPassword };

@@ -40,7 +40,6 @@ async function invite(body, user) {
 
   if (!(await isUserExists(email))) {
     const newUser = await createUnactiveUser(email);
-    console.log(user);
     await increaseInvitesAmount(user.user_id);
 
     return `http://${process.env.HOST}:${process.env.APP_PORT}/auth/register/id=${newUser.user_id}`;
@@ -48,4 +47,13 @@ async function invite(body, user) {
   throw new Error('User with such email already exists');
 }
 
-module.exports = { logIn, invite };
+async function forgotPassword(email) {
+  if (await isUserExists(email)) {
+    const token = jwt.sign(email, process.env.JWTSECRETKEY);
+
+    return `http://${process.env.HOST}:${process.env.APP_PORT}/auth/resetpass/${token}`;
+  }
+  throw new Error('User with such email doesn`t exist');
+}
+
+module.exports = { logIn, invite, forgotPassword };
