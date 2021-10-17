@@ -40,7 +40,6 @@ async function invite(body, user) {
 
   if (!(await isUserExists(email))) {
     const newUser = await createUnactiveUser(email);
-    console.log(user);
     await increaseInvitesAmount(user.user_id);
 
     return `http://${process.env.HOST}:${process.env.APP_PORT}/auth/register/id=${newUser.user_id}`;
