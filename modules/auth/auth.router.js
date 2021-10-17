@@ -1,5 +1,7 @@
 const express = require('express');
-const { logIn, invite, forgotPassword, resetPassword } = require('./auth.service');
+const {
+  logIn, invite, forgotPassword, resetPassword,
+} = require('./auth.service');
 const { authenticate } = require('../../middlewares/auth');
 const { mailInvite, mailResetPassword } = require('../../helpers/nodemailer');
 
