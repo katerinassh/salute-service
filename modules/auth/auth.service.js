@@ -1,8 +1,9 @@
+/* eslint-disable max-len */
 /* eslint-disable camelcase */
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const {
-  createUnactiveUser, isUserExists, increaseInvitesAmount, getUserByLogin,
+  createUnactiveUser, isUserExists, increaseInvitesAmount, getUserByLogin, getUserByEmail, updatePassword,
 } = require('../user/user.service');
 require('dotenv').config();
 
@@ -47,4 +48,22 @@ async function invite(body, user) {
   throw new Error('User with such email already exists');
 }
 
-module.exports = { logIn, invite };
+async function forgotPassword(email) {
+  if (await isUserExists(email)) {
+    const token = jwt.sign(email, process.env.JWTSECRETKEY);
+
+    return `http://${process.env.HOST}:${process.env.APP_PORT}/auth/resetpass/${token}`;
+  }
+  throw new Error('User with such email doesn`t exist');
+}
+
+async function resetPassword(token, body) {
+  const email = jwt.verify(token, process.env.JWTSECRETKEY);
+  const user = await getUserByEmail(email);
+
+  await updatePassword(user.user_id, body);
+}
+
+module.exports = {
+  logIn, invite, forgotPassword, resetPassword,
+};

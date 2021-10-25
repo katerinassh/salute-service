@@ -2,6 +2,7 @@
 /* eslint-disable max-len */
 const bcrypt = require('bcrypt');
 require('dotenv').config();
+
 const User = require('../../models/user.model');
 const { addPhoto } = require('../photo/photo.service');
 
@@ -14,6 +15,10 @@ async function getUserByLogin(login) {
   return User.query().withGraphJoined('photo').where('users.login', login).first();
 }
 
+async function getUserByEmail(email) {
+  return User.query().where('users.email', email).first();
+}
+
 async function createUnactiveUser(email) {
   return User.query().insert({ email, is_active: false });
 }
@@ -22,6 +27,30 @@ async function increaseInvitesAmount(user_id) {
   return User.transaction(async (trx) => {
     const user = await User.query(trx).findById(user_id);
     user.invites_amount -= 1;
+    await User.query(trx).update(user).where('user_id', user_id);
+
+    return User.query(trx).findById(user_id);
+  });
+}
+
+async function isCurrentPasswordCorrect(user, currentPassword) {
+  const match = await bcrypt.compare(currentPassword, user.password);
+  return Boolean(match);
+}
+
+async function updatePassword(user_id, body) {
+  const { newPassword, newPasswordAgain } = body;
+  if (!newPassword || !newPasswordAgain) throw new Error('Not all fields are filled');
+  if (newPassword !== newPasswordAgain) throw new Error('Password mismatch');
+
+  return User.transaction(async (trx) => {
+    const user = await User.query(trx).findById(user_id);
+
+    const match = await bcrypt.compare(currentPassword, user.password);
+    if (!match) throw new Error('Current password isn`t correct');
+    
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    user.password = hashedPassword;
     await User.query(trx).update(user).where('user_id', user_id);
 
     return User.query(trx).findById(user_id);
@@ -46,26 +75,6 @@ async function updateUser(user_id, body) {
   });
 }
 
-async function updatePassword(user_id, body) {
-  const { currentPassword, newPassword, newPasswordAgain } = body;
-  if (!currentPassword || !newPassword || !newPasswordAgain) throw new Error('Not all fields are filled');
-
-  if (newPassword !== newPasswordAgain) throw new Error('Password mismatch');
-
-  return User.transaction(async (trx) => {
-    const user = await User.query(trx).findById(user_id);
-
-    const match = await bcrypt.compare(currentPassword, user.password);
-    if (!match) throw new Error('Current password isn`t correct');
-
-    const hashedPassword = await bcrypt.hash(newPassword, 10);
-    user.password = hashedPassword;
-    await User.query(trx).update(user).where('user_id', user_id);
-
-    return User.query(trx).findById(user_id);
-  });
-}
-
 async function updatePhoto(user_id, body) {
   const { newPhoto } = body;
 
@@ -81,5 +90,13 @@ async function updatePhoto(user_id, body) {
 }
 
 module.exports = {
-  getUserByLogin, createUnactiveUser, isUserExists, increaseInvitesAmount, updateUser, updatePassword, updatePhoto,
+  getUserByLogin,
+  getUserByEmail,
+  createUnactiveUser,
+  isUserExists,
+  increaseInvitesAmount,
+  isCurrentPasswordCorrect,
+  updateUser,
+  updatePassword,
+  updatePhoto,
 };
