@@ -50,7 +50,7 @@ async function invite(body, user) {
 
 async function forgotPassword(email) {
   if (await isUserExists(email)) {
-    const token = jwt.sign(email, process.env.JWTSECRETKEY);
+    const token = jwt.sign({ email }, process.env.JWTSECRETKEY, { expiresIn: '30m' });
 
     return `http://${process.env.HOST}:${process.env.APP_PORT}/auth/resetpass/${token}`;
   }
@@ -58,8 +58,8 @@ async function forgotPassword(email) {
 }
 
 async function resetPassword(token, body) {
-  const email = jwt.verify(token, process.env.JWTSECRETKEY);
-  const user = await getUserByEmail(email);
+  const decryptedToken = jwt.verify(token, process.env.JWTSECRETKEY);
+  const user = await getUserByEmail(decryptedToken.email);
 
   await updatePassword(user.user_id, body);
 }
