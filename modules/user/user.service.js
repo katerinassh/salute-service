@@ -46,9 +46,6 @@ async function updatePassword(user_id, body) {
   return User.transaction(async (trx) => {
     const user = await User.query(trx).findById(user_id);
 
-    const match = await bcrypt.compare(currentPassword, user.password);
-    if (!match) throw new Error('Current password isn`t correct');
-    
     const hashedPassword = await bcrypt.hash(newPassword, 10);
     user.password = hashedPassword;
     await User.query(trx).update(user).where('user_id', user_id);
